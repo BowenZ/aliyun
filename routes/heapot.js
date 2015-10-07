@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var HP = require('../models/hp.js'),
+var crypto = require('crypto'),
+	HP = require('../models/hp.js'),
     User = HP.User;
 
 /* GET users listing. */
@@ -9,15 +10,20 @@ router.get('/huanjun/login', function(req, res, next) {
     User.get(req.query.name, {
         $exists: true
     }, function(err, user) {
-    	if(err){
-    		return;
-    	}
+        if (err) {
+            return;
+        }
         if (user) {
-        	console.log(user);
-            res.send(req.query.jsonpcallback + '('+1+')');
+            var md5 = crypto.createHash('md5'),
+                password = md5.update(req.query.password).digest('hex');
+            if (user.password != password) {
+                res.send(req.query.jsonpcallback + '(' + 2 + ')');
+            } else {
+                res.send(req.query.jsonpcallback + '(' + 1 + ')');
+            }
             return;
         } else {
-            res.send(req.query.jsonpcallback + '('+0+')');
+            res.send(req.query.jsonpcallback + '(' + 0 + ')');
             return;
         }
     });
