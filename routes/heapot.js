@@ -6,7 +6,6 @@ var crypto = require('crypto'),
 
 /* GET users listing. */
 router.get('/huanjun/login', function(req, res, next) {
-    console.log('+++++++++++', req.query.name);
     User.get(req.query.name, {
         $exists: true
     }, function(err, user) {
@@ -19,6 +18,7 @@ router.get('/huanjun/login', function(req, res, next) {
             if (user.password != password) {
                 res.send(req.query.jsonpcallback + '(' + 2 + ')');
             } else {
+            	req.session.user = user;
                 res.send(req.query.jsonpcallback + '(' + 1 + ')');
             }
             return;
@@ -27,6 +27,21 @@ router.get('/huanjun/login', function(req, res, next) {
             return;
         }
     });
+});
+
+router.get('/huanjun/changepwd', function(req, res, next){
+	User.changePassword(req.session.user.name, req.query.oldPwd, req.query.newPwd, function(err){
+		if(err){
+			if(err.message == '0'){
+				res.send(req.query.jsonpcallback + '(' + 0 + ')');
+			}else{
+				console.log(err,'==========');
+				res.send(req.query.jsonpcallback + '(' + 2 + ')');
+			}
+		}else{
+			res.send(req.query.jsonpcallback + '(' + 1 + ')');
+		}
+	});
 });
 
 module.exports = router;
