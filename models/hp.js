@@ -64,7 +64,8 @@ User.get = function(name, email, company, callback) {
             //query username
             collection.findOne({
                 name: name,
-                email: email
+                email: email,
+                company: company
             }, function(err, user) {
                 db.close();
                 if (err) {
