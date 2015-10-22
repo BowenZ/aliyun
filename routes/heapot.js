@@ -5,10 +5,8 @@ var crypto = require('crypto'),
     User = HP.User;
 
 /* GET users listing. */
-router.get('/huanjun/login', function(req, res, next) {
-    User.get(req.query.name, {
-        $exists: true
-    }, function(err, user) {
+router.get('/user/login', function(req, res, next) {
+    User.get(req.query.name, {$exists: true}, req.query.company, function(err, user) {
         if (err) {
             return;
         }
@@ -29,7 +27,7 @@ router.get('/huanjun/login', function(req, res, next) {
     });
 });
 
-router.get('/huanjun/changepwd', function(req, res, next){
+router.get('/user/changepwd', function(req, res, next){
 	User.changePassword(req.session.user.name, req.query.oldPwd, req.query.newPwd, function(err){
 		if(err){
 			if(err.message == '0'){
@@ -42,6 +40,10 @@ router.get('/huanjun/changepwd', function(req, res, next){
 			res.send(req.query.jsonpcallback + '(' + 1 + ')');
 		}
 	});
+});
+
+router.get('/question/getquestions', function(req, res, next){
+
 });
 
 module.exports = router;

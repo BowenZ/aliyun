@@ -2,22 +2,24 @@ var mongodb = require('mongodb').MongoClient;
 var settings = require('../settings');
 var crypto = require('crypto');
 
+
+/*--------焕君start---------*/
 function User(user) {
     this.name = user.name;
     this.password = user.password;
     this.email = user.email;
+    this.tel = user.tel;
+    this.company = user.company;
 }
-
-module.exports = {
-    User: User
-};
 
 //save user information
 User.prototype.save = function(callback) {
     var user = {
         name: this.name,
         password: this.password,
-        email: this.email
+        email: this.email,
+        tel: this.tel,
+        belong: this.belong
     };
 
     //open DB
@@ -45,7 +47,7 @@ User.prototype.save = function(callback) {
 };
 
 //read user information
-User.get = function(name, email, callback) {
+User.get = function(name, email, company, callback) {
     //open DB
     mongodb.connect(settings.url, function(err, db) {
         if (err) {
@@ -74,7 +76,7 @@ User.get = function(name, email, callback) {
     })
 }
 
-User.changePassword = function(name, oldPwd, newPwd, callback) {
+User.changePassword = function(name, company, oldPwd, newPwd, callback) {
     var aassdd = oldPwd;
     mongodb.connect(settings.url, function(err, db) {
         if (err) {
@@ -86,7 +88,8 @@ User.changePassword = function(name, oldPwd, newPwd, callback) {
                 return callback(err);
             }
             collection.findOne({
-                name: name
+                name: name,
+                company: company
             }, function(err, user) {
                 if (err) {
                     return callback(err);
@@ -114,3 +117,19 @@ User.changePassword = function(name, oldPwd, newPwd, callback) {
         });
     });
 }
+/*--------焕君end---------*/
+
+/*--------答题start---------*/
+function Question(question){
+    this.title = question.title;
+    this.type = question.type;
+    this.options = question.options;
+    this.answer = question.answer;
+    this.explain = question.explain;
+    this.status = question.status;
+}
+/*--------答题end---------*/
+
+module.exports = {
+    User: User
+};
