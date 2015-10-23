@@ -1,0 +1,75 @@
+@mixin hide-scrollbar() {
+    &::-webkit-scrollbar {
+        width: 0 !important
+    }
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+@mixin tap-highlight($color1: 0, $color2: 0, $color3: 0, $opacity: 0) {
+    -webkit-tap-highlight-color: rgba($color1, $color2, $color3, $opacity);
+}
+
+@mixin div-nobreak {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+
+@mixin hide-overflowtext($maxHeight: 100px, $lineClamp: 4, $webkitBox: false) {
+    max-height: $maxHeight;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @if $webkitBox {
+        display: -webkit-box;
+    }
+    -webkit-line-clamp: $lineClamp;
+    -webkit-box-orient: vertical;
+}
+
+@mixin vhcenter($width, $selector: '.box', $height: auto) {
+    width: $width;
+    height: 100%;
+    font-size: 0;
+    margin: 0 auto;
+    &:after {
+        content: "";
+        height: 100%;
+        display: inline-block;
+        ;
+        vertical-align: middle;
+    }
+    #{$selector} {
+        width: 100%;
+        height: $height;
+        box-sizing: border-box;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+}
+
+@mixin vhcenter-abs($width, $height) {
+    width: $width;
+    height: $height;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+@mixin image-process() {
+    -webkit-filter: grayscale(0%) blur(0px) brightness(100%) contrast(100%) hue-rotate(0deg) invert(0%) opacity(100%) saturate(1) sepia(0%);
+}
+
+@mixin fix-blink() {
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+}
+
+@mixin IOS-font-adjust() {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}

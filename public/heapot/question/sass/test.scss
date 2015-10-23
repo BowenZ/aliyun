@@ -1,0 +1,49 @@
+@import "base/base";
+html {
+    // height: 2000px;
+    height: 100%;
+    background: $flat-green;
+    @include hide-scrollbar;
+    * {
+        @include tap-highlight;
+    }
+    .box {
+        @include div-nobreak;
+    }
+}
+
+body {
+    padding: 20px;
+    height: 100%;
+}
+
+.container{
+	background: $flat-purple;
+	@include vhcenter(80%);
+}
+
+.box {
+    padding: 20px;
+    background: $flat-red;
+    >div {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        vertical-align: middle;
+        &:nth-child(even) {
+            background: $flat-yellow;
+        }
+        &:nth-child(odd) {
+            background: $flat-blue;
+        }
+        &:nth-child(1) {
+            p {
+                @include hide-overflowtext(100px, 2, false);
+            }
+        }
+        &:nth-child(2){
+        	background: inline-image('../img/img.jpg');
+        	background-size: cover;
+        }
+    }
+}

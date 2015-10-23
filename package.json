@@ -7,15 +7,16 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
+    "connect-flash": "*",
+    "connect-mongo": "*",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "express-session": "*",
+    "mongodb": "*",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "mongodb": "*",
-    "connect-mongo": "*",
-    "connect-flash": "*"
+    "xlsx": "^0.8.0"
   }
 }

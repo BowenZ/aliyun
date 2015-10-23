@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="zh-CN" class="no-js" ng-app="huanjun-app">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><%= title %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale = 1.0,maximum-scale = 1.0, user-scalable=no">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <!--[if lt IE 9]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- Add your site or application content here -->
+    <section class="shade">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>提示：</strong>
+            <span class="info"></span>
+        </div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <input type="text" name="username" class="form-control" id="inputEmail3" placeholder="填写用户名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="填写密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> 记住我
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary btn-block">登录</button>
+                </div>
+            </div>
+        </form>
+    </section>
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        驾考答题系统
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">概览</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#newModal">添加题目</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#excelModal">上传Excel表格</a></li>
+                        <!-- <li><a href="#">数据统计</a></li>
+                        <li class="dropdown">
+                            <a href="#">店铺设置</a>
+                        </li> -->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">消息</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">账号<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-toggle="modal" data-target="#pwdModal">更改密码</a></li>
+                                <li><a href="#">帮助</a></li>
+                                <li><a href="#">意见反馈</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" class="logout">注销</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- Modal -->
+    <div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="pwdForm">
+                        <div class="form-group">
+                            <label for="oldPwd" class="col-sm-3 control-label">原密码</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="oldPwd" placeholder="" name="oldPwd">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPwd1" class="col-sm-3 control-label">新密码</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="newPwd1" placeholder="" name="newPwd1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPwd2" class="col-sm-3 control-label">确认新密码</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="newPwd2" placeholder="" name="newPwd2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-primary">确定</button>
+                                <span class="loading-icon glyphicon glyphicon-refresh"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加题目</h4>
+                </div>
+                <div class="modal-body" ng-controller="NewQuestionController as questionCtrl">
+                    <form class="form-horizontal" id="newForm">
+                        <div class="form-group">
+                            <label for="" class="col-sm-3 control-label">题目类型</label>
+                            <div class="col-sm-9">
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" id="inlineRadio1" ng-model="questionCtrl.type" value="radio"> 单选
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="type" id="inlineRadio2" ng-model="questionCtrl.type" value="checkbox"> 多选
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="col-sm-3 control-label">题目</label>
+                            <div class="col-sm-9">
+                                <input type="text" autocomplete="off" class="form-control" id="title" placeholder="请在此输入题目" name="title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="answers" class="col-sm-3 control-label">选项</label>
+                            <div class="col-sm-7">
+                                <input type="text" autocomplete="off" class="form-control" id="answers" placeholder="请在此输入答案选项" name="answers" ng-model="questionCtrl.option">
+                                <p class="help-block">请在添加完选项后直接在下方预览区选中正确答案</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary" ng-click="questionCtrl.addOption()">添加</button>
+                            </div>
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <ol class="answer-preview">
+                                    <li ng-repeat="opt in questionCtrl.options track by $index">
+                                        <div ng-class="questionCtrl.type">
+                                            <label>
+                                                <input type="{{questionCtrl.type}}" name="options" value="">
+                                                <span class="option-copy">{{opt}}</span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="explain" class="col-sm-3 control-label">答案解释</label>
+                            <div class="col-sm-9">
+                                <textarea id="explain" placeholder="请在此输入对问题的解答" name="explain" class="form-control" id="" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button type="submit" class="btn btn-primary">确定</button>
+                                <span class="loading-icon glyphicon glyphicon-refresh"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="excelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">上传表格</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form" method="post" action="/upload" enctype="multipart/form-data" name="fileinfo">
+                  <div class="form-group">
+                    <label for="fileInput">请选择.xlsx文件</label>
+                    <input type="file" name="files" class="form-control" id="fileInput" placeholder="select your images" multiple="multiple" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                  </div>
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-warning" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                      </div>
+                    </div>
+                  <button id="uploadButton" type="button" class="btn btn-primary">上传</button>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="uploadOK">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-info" ng-controller="FilterController as filterController">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title">题目信息</h3>
+                        <button class="btn btn-primary" data-toggle="collapse" href="#searchForm" aria-expanded="false" aria-controls="searchForm">筛选</button>
+                    </div>
+                    <div class="collapse search-form" id="searchForm">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">题目</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputName" placeholder="请在此输入搜索问题的题目" name="filterName" ng-model="queryName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDate1" class="col-sm-2 control-label">日期</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" id="inputDate1" ng-model="queryDate1">
+                                        <div class="input-group-addon">至</div>
+                                        <input type="date" class="form-control" id="inputDate2" ng-model="queryDate2">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary btn-block" ng-click="filterController.search()">搜索</button>
+                                </div>
+                            </div> -->
+                        </form>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px">#</th>
+                                    <th>题目</th>
+                                    <th style="width: 150px">添加日期</th>
+                                    <th style="width: 130px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="question in filterController.questions | filter:queryName | filter:dateFilter">
+                                <tr>
+                                    <th scope="row">{{$index+1}}</th>
+                                    <td>{{question.title}}</td>
+                                    <td>{{question.time}}</td>
+                                    <td>
+                                        <button class="btn btn-primary update" data-toggle="collapse" data-parent="#accordion" href="#{{'collapse' + $index}}" aria-expanded="true" aria-controls="{{'collapse' + $index}}">详情</button>
+                                        <button class="btn btn-danger delete">删除</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="no-padding">
+                                        <div id="{{'collapse' + $index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                <h4><strong>题目：</strong>{{question.title}}</h4>
+                                                <ol>
+                                                    <li ng-repeat="opt in question.options" ng-class="{'active':opt.checked}">
+                                                        <div ng-class="question.type">
+                                                            <label>
+                                                                <input type="{{question.type }}" name="{{'optionsRadios'+$parent.$index}}" ng-value="true" ng-checked="opt.checked" disabled> {{opt.option}}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ol>
+                                                <p><strong>解答：</strong>{{question.explain}}</p>
+                                                <p><strong>添加日期：</strong>{{question.time}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.4.6/angular.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/vendor/bootstrapValidator.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/base64.js"></script>
+    <script src="js/admin.js"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--<script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>-->
+</body>
+
+</html>

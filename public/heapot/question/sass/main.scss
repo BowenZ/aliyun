@@ -1,0 +1,34 @@
+@import "base/bootstrap";
+@import "base/base";
+
+body{
+	font-size: 1.4rem;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    margin: 0;
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: #fff;
+        text-align: center;
+        background-color: #3386C5;
+        line-height: 3.4rem;
+        font-weight: normal;
+    }
+}
+
+ol{
+	font-size: 18px;
+	list-style: decimal-leading-zero;
+	ol{
+		list-style-type: upper-alpha;
+	}
+}
