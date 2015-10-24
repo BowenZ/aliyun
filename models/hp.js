@@ -163,7 +163,105 @@ Question.prototype.save = function(callback) {
         });
     });
 };
-/*--------答题end---------*/
+
+Question.getAll = function(callback) {
+    mongodb.connect(settings.url, function(err, db) {
+        if (err) {
+            return callback(err);
+        }
+
+        //read users collection
+        db.collection('question', function(err, collection) {
+            if (err) {
+                db.close();
+                return callback(err);
+            }
+
+            //query username
+            collection.find({}).sort({time: -1}).toArray(function(err, docs) {
+                db.close();
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, docs);
+            });
+        })
+    })
+}
+
+Question.saveAll = function(arr, callback) {
+        var date = new Date();
+        var time = {
+            date: date,
+            year: date.getFullYear(),
+            month: date.getFullYear() + "-" + (date.getMonth() + 1),
+            day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+            minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()
+        };
+        var question, tmpOptions, tmpAnswer, tmpIndex, callbackResult;
+        mongodb.connect(settings.url, function(err, db) {
+            if (err) {
+                return callback(err);
+            }
+
+            db.collection('question', function(err, collection) {
+                if (err) {
+                    db.close();
+                    return callback(err);
+                }
+                arr.forEach(function(item, index) {
+                    if (item.type == 0) {
+                        tmpOptions = [];
+                        item.options.split(/;/).forEach(function(opt, index) {
+                            tmpOptions.push({
+                                option: opt,
+                                checked: index == (item.answer - 1)
+                            });
+                        })
+                    } else {
+                        tmpOptions = [], tmpAnswer = item.answer.split(/;/), tmpIndex = tmpAnswer.shift();
+                        item.options.split(/;/).forEach(function(opt, index) {
+                            if (index == (tmpIndex - 1)) {
+                                tmpOptions.push({
+                                    option: opt,
+                                    checked: true
+                                });
+                                tmpIndex = tmpAnswer.shift();
+                            } else {
+                                tmpOptions.push({
+                                    option: opt,
+                                    checked: false
+                                });
+                            }
+                        })
+                    }
+                    question = {
+                            type: item.type == 0 ? 'radio' : 'checkbox',
+                            title: item.title,
+                            options: tmpOptions,
+                            explain: item.explain,
+                            time: time
+                        }
+                        // console.log(question);
+                    collection.insert(question, {
+                        safe: true
+                    }, function(err, question) {
+                        if (err) {
+                            console.log('====', err);
+                            callbackResult = err;
+                        }
+                        if (index == (arr.length - 1)) {
+                            // console.log('closed');
+                            db.close();
+                            callback(callbackResult);
+                        }
+                    });
+                });
+                return;
+            });
+        });
+    }
+    /*--------答题end---------*/
 
 module.exports = {
     User: User,

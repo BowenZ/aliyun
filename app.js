@@ -6,11 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+// var multer = require('multer');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var heapot = require('./routes/heapot');
 
 var app = express();
+
+// app.use(multer({dest: './public/upload'}));
 
 // view engine setup
 /*console.log('==================');

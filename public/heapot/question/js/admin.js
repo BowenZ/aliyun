@@ -245,7 +245,7 @@ $(document).ready(function() {
                 })
             });
             questionData.options = JSON.stringify(arr);
-            questionData.explain = $form.find('input[name="explain"]').val();
+            questionData.explain = $form.find('textarea[name="explain"]').val();
             $.post('admin/addquestion', questionData, function(data, textStatus, xhr) {
                 if(data == 'success')
                     alert('添加成功');
@@ -273,9 +273,9 @@ $(document).ready(function() {
     function initUpload(){
         $("#uploadButton").click(function() {
             $("#progressBar").attr("style", "width: 0%").attr("aria-valuenow", "0");
-            var files = document.getElementById("fileInput").files;
-            var formData = new FormData(document.forms.namedItem("fileinfo"));
-            //formData.append('files', files);
+            var excelfile = document.getElementById("fileInput").files[0];
+            var formData = new FormData();
+            formData.append('excelfile', excelfile);
             var xhr;
             if (window.ActiveXObject) {
                 xhr = new ActiveXObject("Microsoft.XMLHTTP");
@@ -284,7 +284,16 @@ $(document).ready(function() {
             }
             xhr.open("POST", "/heapot/question/admin/upload", true);
             xhr.onload = function(event) {
-                console.log(xhr.responseText);
+                if(xhr.responseText == 1){
+                    //success
+                    alert('上传成功');
+                }else if(xhr.responseText == 0){
+                    //empty
+                    alert('文件不能为空');
+                }else{
+                    //error
+                    alert('出现错误，请检查上传文件是否符合规范');
+                }
             };
             xhr.upload.addEventListener("progress", progressFunction, false);
             xhr.send(formData);

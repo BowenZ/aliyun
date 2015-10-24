@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var xlsx = require('xlsx');
+var xlsx = require('xlsx'),
+    fs = require('fs'),
+    multer = require('multer'),
+    upload = multer({
+        dest: '/public/upload/'
+    });
 var crypto = require('crypto'),
     HP = require('../models/hp.js'),
     User = HP.User,
@@ -47,7 +52,12 @@ router.get('/user/changepwd', function(req, res, next) {
 });
 
 router.get('/question/getquestions', function(req, res, next) {
-
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
 });
 
 router.get('/question/admin', function(req, res, next) {
@@ -75,45 +85,52 @@ router.post('/question/admin/addquestion', function(req, res, next) {
 
 function readExcel(file) {
     // 读取xlsx文件，将第一个worksheet转换成json对象
-    var workbook = xlsx.readFile('test.xlsx');
+    var workbook = xlsx.readFile(file);
     var sheetNameList = workbook.SheetNames;
     var worksheet = workbook.Sheets[sheetNameList[0]];
     return xlsx.utils.sheet_to_json(worksheet); // 转换为JSON对象数组，第一行数据默认作为对象的key值
 }
 
-router.post('/question/admin/upload', function(req, res, next) {
-    console.log(req);
-    res.send(req);
-    return;
-    if (!req.files.files || req.files.files.originalFilename == "") {
-        console.log('empty file!');
+router.post('/question/admin/upload', upload.single('excelfile'), function(req, res, next) {
+    /** When using the "single"
+      data come in "req.file" regardless of the attribute "name". **/
+    // console.log(req.file);
+    if(req.file == undefined){
         res.json(0);
         return;
     }
-    console.log(req.files);
-    res.json(req.files);
-    return;
-    if (!req.files.files.length) {
-        var target_path = './public/images/uploadImgs/' + filesName[0];
-        fs.renameSync(req.files.files.path, target_path);
-    } else {
-        for (var i in req.files.files) {
-            var target_path = './public/images/uploadImgs/' + filesName[i];
-            if (target_path.indexOf(req.files.files[i].originalFilename.replace(new RegExp(" ", "g"), "-")) < 0) {
-                console.log("wrong");
-                var originalFilename = req.files.files[i].originalFilename;
-                for (var j = 0; j < filesName.length; j++) {
-                    if (originalFilename.replace(new RegExp(" ", "g"), "-").indexOf(filesName[j].substring(14)) > -1) {
-                        target_path = './public/images/uploadImgs/' + filesName[j];
-                        break;
-                    }
+    var tmp_path = req.file.path;
+
+    /** The original name of the uploaded file
+        stored in the variable "originalname". **/
+    var target_path = 'public/upload/' + req.file.originalname;
+
+    /** A better way to copy the uploaded file. **/
+    var src = fs.createReadStream(tmp_path);
+    var dest = fs.createWriteStream(target_path);
+    src.pipe(dest);
+    src.on('end', function() {
+        try{
+            var results = readExcel(target_path);
+            Question.saveAll(results, function(err){
+                if(err){
+                    res.json(err);
+                }else{
+                    res.json(1);
                 }
-            }
-            fs.renameSync(req.files.files[i].path, target_path);
-            console.log(filesName[i] + "-" + req.files.files[i].originalFilename);
+                return;
+            });
+        }catch(e){
+            console.log(e);
+            return;
         }
-    }
-    res.json(1);
+    });
+    src.on('error', function(err) {
+        console.log('======');
+        console.log(err);
+        res.json(err);
+    });
+    return;
 });
 
 module.exports = router;
