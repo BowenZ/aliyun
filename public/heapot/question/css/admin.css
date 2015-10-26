@@ -189,6 +189,8 @@ table .col-xs-12 {
   background-color: #eee;
   background-image: url(../img/bg.png);
   z-index: 99999; }
+  .shade.true {
+    display: none; }
   .shade form {
     width: 60%;
     height: 300px;

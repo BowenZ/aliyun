@@ -60,6 +60,9 @@ table {
     background-color: #eee;
     background-image: url(../img/bg.png);
     z-index: 99999;
+    &.true{
+        display: none;
+    }
     form {
         @include vhcenter-abs(60%, 300px);
         max-width: 500px;

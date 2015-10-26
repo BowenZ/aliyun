@@ -1,14 +1,14 @@
 @import "base/bootstrap";
 @import "base/base";
-
-body{
-	font-size: 1.4rem;
+body {
+    font-size: 1.4rem;
 }
 
 .wrapper {
     width: 100%;
     max-width: 640px;
     margin: 0 auto;
+    padding-bottom: 1rem;
 }
 
 header {
@@ -25,10 +25,38 @@ header {
     }
 }
 
-ol{
-	font-size: 18px;
-	list-style: decimal-leading-zero;
-	ol{
-		list-style-type: upper-alpha;
-	}
+ol {
+    font-size: 18px;
+    list-style: decimal-leading-zero;
+    ol {
+        list-style-type: upper-alpha;
+    }
+}
+
+.question li>div{
+    display: inline-flex;
+}
+
+.explain {
+    font-size: 1.4rem;
+    color: #3498db;
+    display: none;
+}
+
+li.wrong {
+    li.true {
+        color: #e74c3c;
+    }
+    .explain{
+        display: block;
+    }
+}
+
+.done .question {
+    h4 {
+        color: #1abc9c;
+    }
+    &.wrong h4 {
+        color: #e74c3c;
+    }
 }

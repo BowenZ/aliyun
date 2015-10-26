@@ -6795,7 +6795,8 @@ body {
 .wrapper {
   width: 100%;
   max-width: 640px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding-bottom: 1rem; }
 
 header {
   width: 100%;
@@ -6814,5 +6815,23 @@ ol {
   list-style: decimal-leading-zero; }
   ol ol {
     list-style-type: upper-alpha; }
+
+.question li > div {
+  display: inline-flex; }
+
+.explain {
+  font-size: 1.4rem;
+  color: #3498db;
+  display: none; }
+
+li.wrong li.true {
+  color: #e74c3c; }
+li.wrong .explain {
+  display: block; }
+
+.done .question h4 {
+  color: #1abc9c; }
+.done .question.wrong h4 {
+  color: #e74c3c; }
 
 /*# sourceMappingURL=main.css.map */

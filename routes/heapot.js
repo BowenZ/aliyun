@@ -26,6 +26,7 @@ router.get('/user/login', function(req, res, next) {
                 res.send(req.query.jsonpcallback + '(' + 2 + ')');
             } else {
                 req.session.user = user;
+                // console.log(user, req.session.user, '---------------');
                 res.send(req.query.jsonpcallback + '(' + 1 + ')');
             }
             return;
@@ -36,8 +37,28 @@ router.get('/user/login', function(req, res, next) {
     });
 });
 
+router.get('/user/logout', function(req, res, next){
+    if(req.session.user){
+        req.session.user = null;
+    }
+    res.send(1);
+});
+
+router.get('/user/getsession', function(req, res, next){
+    if(!req.session.user){
+        return res.send('null');
+    }
+    res.send(req.session.user);
+});
+
 router.get('/user/changepwd', function(req, res, next) {
-    User.changePassword(req.session.user.name, req.query.oldPwd, req.query.newPwd, function(err) {
+    if (!req.session.user) {
+        console.log('未登录');
+        return res.send(3);
+    }
+    // console.log(req.session.user,'============');
+    console.log(req.query.jsonpcallback,'123123123');
+    User.changePassword(req.session.user._id, req.query.oldPwd, req.query.newPwd, function(err) {
         if (err) {
             if (err.message == '0') {
                 res.send(req.query.jsonpcallback + '(' + 0 + ')');
@@ -51,18 +72,41 @@ router.get('/user/changepwd', function(req, res, next) {
     });
 });
 
-router.get('/question/getquestions', function(req, res, next) {
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
-    '从这里开始！！！！！！！！！！！！！！！！！！！！！！！！'
+router.get('/question/getall', function(req, res, next) {
+    if (!req.session.user) {
+        console.log('未登录');
+        return res.json(1);
+    }
+    Question.getAll(function(err, questions) {
+        if (err) {
+            return res.json(0);
+        } else {
+            res.json(questions);
+        }
+    });
+});
+
+router.get('/question/user', function(req, res, next) {
+    Question.getAll(function(err, docs) {
+        if (err)
+            return res.json(0);
+        var arr = [];
+        for (var i = 0; i < 10; i++) {
+            arr.push(docs.splice(parseInt(Math.random() * docs.length), 1)[0]);
+        }
+        // res.json(arr);
+        // return;
+        res.render('heapot/question/index', {
+            questions: arr
+        });
+    });
 });
 
 router.get('/question/admin', function(req, res, next) {
+    login = !!req.session.user;
     res.render('heapot/question/admin', {
-        title: '答题管理系统'
+        title: '答题管理系统',
+        login: login
     });
 });
 
@@ -83,6 +127,14 @@ router.post('/question/admin/addquestion', function(req, res, next) {
     });
 });
 
+router.post('/question/delete', function(req, res, next) {
+    Question.deleteOne(req.body.id, function(err) {
+        if (err)
+            return res.json(0);
+        return res.json(1);
+    });
+});
+
 function readExcel(file) {
     // 读取xlsx文件，将第一个worksheet转换成json对象
     var workbook = xlsx.readFile(file);
@@ -95,7 +147,7 @@ router.post('/question/admin/upload', upload.single('excelfile'), function(req, 
     /** When using the "single"
       data come in "req.file" regardless of the attribute "name". **/
     // console.log(req.file);
-    if(req.file == undefined){
+    if (req.file == undefined) {
         res.json(0);
         return;
     }
@@ -110,17 +162,17 @@ router.post('/question/admin/upload', upload.single('excelfile'), function(req, 
     var dest = fs.createWriteStream(target_path);
     src.pipe(dest);
     src.on('end', function() {
-        try{
+        try {
             var results = readExcel(target_path);
-            Question.saveAll(results, function(err){
-                if(err){
+            Question.saveAll(results, function(err) {
+                if (err) {
                     res.json(err);
-                }else{
+                } else {
                     res.json(1);
                 }
                 return;
             });
-        }catch(e){
+        } catch (e) {
             console.log(e);
             return;
         }

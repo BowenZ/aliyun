@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="zh-CN" class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>答题</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale = 1.0,maximum-scale = 1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!--[if lt IE 9]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- Add your site or application content here -->
+    <div class="wrapper">
+        <section>
+            <header>
+                <h1>答题</h1>
+            </header>
+            <div class="container">
+                <form action="">
+                    <ol>
+                        <% questions.forEach(function(question, index){ %>
+                        <li class="question">
+                            <h4><%= question.title %></h4>
+                            <ol>
+                                <% question.options.forEach(function(opt, idx){ %>
+                                <li class="<%= opt.checked %>">
+                                    <div class="<%= question.type %>">
+                                        <label>
+                                            <input type="<%= question.type %>" name="<%= question._id %>" data-checked="<%= opt.checked %>"><%= opt.option %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <% }) %>
+                            </ol>
+                            <p class="explain"><strong>解释：</strong><%= question.explain %></p>
+                        </li>
+                        <% }) %>
+                        <!-- <li class="question">
+                            <h4 class="">曹植七步成诗，相传历史上还有一位三步就能成诗的人，他是：</h4>
+                            <ol>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios1"  value="option1" >王安石
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios1"  value="option2">寇准
+                                        </label>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="question">
+                            <h4 class="">《论语》中认为“为仁之本”的是：</h4>
+                            <ol>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios2"  value="option1" >忠义
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios2"  value="option2">孝悌
+                                        </label>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="question">
+                            <h4 class="">“七月流火，九月授衣”，其中“七月流火”指的是：</h4>
+                            <ol>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios3"  value="option1" >天气炎热似火
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios3"  value="option2">天气渐渐转凉
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios3"  value="option2">流星异常出现
+                                        </label>
+                                    </div>
+                                </li>
+                            </ol>
+                        </li> -->
+                    </ol>
+                    <button type="button" class="btn btn-success btn-block submit">提交</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+    <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--<script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>-->
+    <script>
+$('.submit').click(function(event) {
+	if(window.confirm('确定要提交吗？')){
+		var $form = $('form');
+		var answers = [], wrongNum = 0, wrongFlag = false;
+		$('form .question').each(function(index, item) {
+			/*var $input = $(el).find('input:checked');
+			if($input.attr('type') == 'checkbox'){
+				var answer = [];
+				if($input.length < 2){
+					answer.push($input.val());
+				}else{
+					$input.each(function(index, el) {
+						answer.push(el.value)
+					});
+				}
+				answers.push(answer);
+			}else{
+				answers.push($input.val());
+			}*/
+            $(item).find('input').each(function(i, el) {
+                if($(el).is(':checked') != $(el).data('checked')){
+                    $(item).addClass('wrong');
+                    wrongFlag = true;
+                }
+            });
+            if(wrongFlag){
+                wrongNum++;
+                wrongFlag = false;
+            }
+		});
+        $('form').addClass('done');
+        window.scrollTo(0,0)
+        console.log('一共错了'+wrongNum+'道题');
+	}
+});
+    </script>
+</body>
+
+</html>

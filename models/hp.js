@@ -1,6 +1,7 @@
 var mongodb = require('mongodb').MongoClient;
 var settings = require('../settings');
-var crypto = require('crypto');
+var crypto = require('crypto'),
+    ObjectID = require('mongodb').ObjectID;
 
 
 /*--------焕君start---------*/
@@ -77,7 +78,7 @@ User.get = function(name, email, company, callback) {
     })
 }
 
-User.changePassword = function(name, company, oldPwd, newPwd, callback) {
+User.changePassword = function(id, oldPwd, newPwd, callback) {
         var aassdd = oldPwd;
         mongodb.connect(settings.url, function(err, db) {
             if (err) {
@@ -89,8 +90,7 @@ User.changePassword = function(name, company, oldPwd, newPwd, callback) {
                     return callback(err);
                 }
                 collection.findOne({
-                    name: name,
-                    company: company
+                    _id: new ObjectID(id)
                 }, function(err, user) {
                     if (err) {
                         return callback(err);
@@ -101,7 +101,7 @@ User.changePassword = function(name, company, oldPwd, newPwd, callback) {
                         return callback(new Error('0'));
                     }
                     collection.update({
-                        "name": name
+                        _id: new ObjectID(id)
                     }, {
                         $set: {
                             password: crypto.createHash('md5').update(newPwd).digest('hex')
@@ -189,6 +189,39 @@ Question.getAll = function(callback) {
     })
 }
 
+Question.deleteOne = function(id, callback){
+    mongodb.connect(settings.url, function(err, db) {
+        if (err) {
+            return callback(err);
+        }
+
+        //read users collection
+        db.collection('question', function(err, collection) {
+            if (err) {
+                db.close();
+                return callback(err);
+            }
+
+            collection.findOne({
+                _id: new ObjectID(id)
+            }, function(err, doc){
+                console.log(doc,'+++++++++++');
+            });
+            collection.remove({
+                _id: new ObjectID(id)
+            }, {
+                w: 1
+            }, function(err){
+                console.log(new ObjectID(id),'=========');
+                db.close();
+                if(err)
+                    return callback(err);
+                callback(null);
+            });
+        })
+    })
+}
+
 Question.saveAll = function(arr, callback) {
         var date = new Date();
         var time = {
@@ -209,6 +242,7 @@ Question.saveAll = function(arr, callback) {
                     db.close();
                     return callback(err);
                 }
+                var i = 0;
                 arr.forEach(function(item, index) {
                     if (item.type == 0) {
                         tmpOptions = [];
@@ -246,12 +280,14 @@ Question.saveAll = function(arr, callback) {
                     collection.insert(question, {
                         safe: true
                     }, function(err, question) {
+                        i++;
+                        console.log(i, index);
                         if (err) {
                             console.log('====', err);
                             callbackResult = err;
                         }
-                        if (index == (arr.length - 1)) {
-                            // console.log('closed');
+                        if (i == arr.length) {
+                            console.log('+++++++++++++closed+++++++++');
                             db.close();
                             callback(callbackResult);
                         }

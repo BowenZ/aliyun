@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="zh-CN" class="no-js" ng-app="huanjun-app">
+<html lang="zh-CN" class="no-js" ng-app="heapot-app">
 <!--<![endif]-->
 
 <head>
@@ -21,7 +21,7 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
     <!-- Add your site or application content here -->
-    <section class="shade">
+    <section class="shade <%= login %>">
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>提示：</strong>
@@ -243,9 +243,9 @@
                     <div class="collapse search-form" id="searchForm">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label for="inputName" class="col-sm-2 control-label">题目</label>
+                                <label for="inputName" class="col-sm-2 control-label">关键字</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputName" placeholder="请在此输入搜索问题的题目" name="filterName" ng-model="queryName">
+                                    <input type="text" class="form-control" id="inputName" placeholder="请在此输入搜索问题的关键字" name="filterName" ng-model="queryName">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -279,10 +279,10 @@
                                 <tr>
                                     <th scope="row">{{$index+1}}</th>
                                     <td>{{question.title}}</td>
-                                    <td>{{question.time}}</td>
+                                    <td>{{question.time.day}}</td>
                                     <td>
                                         <button class="btn btn-primary update" data-toggle="collapse" data-parent="#accordion" href="#{{'collapse' + $index}}" aria-expanded="true" aria-controls="{{'collapse' + $index}}">详情</button>
-                                        <button class="btn btn-danger delete">删除</button>
+                                        <button class="btn btn-danger delete" ng-click="filterController.deleteQuestion(question._id, $index)">删除</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -300,7 +300,7 @@
                                                     </li>
                                                 </ol>
                                                 <p><strong>解答：</strong>{{question.explain}}</p>
-                                                <p><strong>添加日期：</strong>{{question.time}}</p>
+                                                <p><strong>添加日期：</strong>{{question.time.day}}</p>
                                             </div>
                                         </div>
                                     </td>
