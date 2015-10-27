@@ -50,7 +50,7 @@ var resetPreview, loadContent;
                         id: id
                     }
                 }).success(function(data) {
-                    if(data == 0){
+                    if (data == 0) {
                         alert('登录超时，请刷新页面重新登录');
                         return;
                     }
@@ -59,13 +59,13 @@ var resetPreview, loadContent;
             }
         }
 
-        self.clearAll = function(){
-            if(window.confirm('该操作将会删除所有题目，您确定要这样做吗？')){
+        self.clearAll = function() {
+            if (window.confirm('该操作将会删除所有题目，您确定要这样做吗？')) {
                 $http({
                     method: 'POST',
                     url: '/heapot/question/deleteall'
                 }).success(function(data) {
-                    if(data == 0){
+                    if (data == 0) {
                         alert('登录超时，请刷新页面重新登录');
                         return;
                     }
@@ -322,10 +322,12 @@ $(document).ready(function() {
             questionData.options = JSON.stringify(arr);
             questionData.explain = $form.find('textarea[name="explain"]').val();
             $.post('admin/addquestion', questionData, function(data, textStatus, xhr) {
-                if (data == 'success')
+                if (data == 'success') {
                     alert('添加成功');
-                else
+                    loadContent();
+                } else {
                     alert('添加失败');
+                }
                 $loadingIcon.css('visibility', 'hidden');
                 $(form).find('input,textarea').val('');
                 resetPreview();
@@ -377,9 +379,11 @@ $(document).ready(function() {
                     //error
                     alert('出现错误，请检查上传文件是否符合规范');
                 }
+                $("#uploadButton").removeAttr('disabled');
             };
             xhr.upload.addEventListener("progress", progressFunction, false);
             xhr.send(formData);
+            $("#uploadButton").attr('disabled', 'disabled');
 
             function progressFunction(evt) {
                 var progressBar = document.getElementById("progressBar");

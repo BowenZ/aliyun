@@ -170,6 +170,12 @@ table .col-md-4,
 table .col-sm-6,
 table .col-xs-12 {
   padding-bottom: 15px; }
+table thead th:nth-child(1) {
+  width: 60px; }
+table thead th:nth-child(3) {
+  width: 150px; }
+table thead th:nth-child(4) {
+  width: 130px; }
 
 .panel-heading h3 {
   float: left;
@@ -240,5 +246,19 @@ ol {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
+@media screen and (max-width: 500px) {
+  table thead th:nth-child(1) {
+    width: 35px; }
+  table thead th:nth-child(3) {
+    width: 100px; }
+  table thead th:nth-child(4) {
+    width: 70px; }
+
+  td:nth-child(3),
+  th:nth-child(3) {
+    display: none; }
+
+  table .btn {
+    margin-bottom: 0.5rem; } }
 
 /*# sourceMappingURL=admin.css.map */

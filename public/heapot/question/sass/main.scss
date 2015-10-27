@@ -9,7 +9,7 @@ body {
     max-width: 640px;
     margin: 0 auto;
     padding-bottom: 1rem;
-    .container{
+    .container {
         width: 100%;
     }
 }
@@ -31,6 +31,9 @@ header {
 ol.questions {
     font-size: 1.6rem;
     list-style: decimal-leading-zero;
+    >li {
+        margin-bottom: 1rem;
+    }
     ol.options {
         padding-left: 3rem;
         list-style-type: upper-alpha;

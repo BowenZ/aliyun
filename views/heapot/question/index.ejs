@@ -96,7 +96,7 @@ $(document).ready(function() {
         if(window.confirm('确定要提交吗？')){
             submited = true;
             $('.submit').attr('disabled', 'disabled');
-            $('input').attr('disabled', 'disabled');
+            // $('input').attr('disabled', 'disabled');
             var answers = [], wrongNum = 0, wrongFlag = false;
             $('form .question').each(function(index, item) {
                 $(item).find('input').each(function(i, el) {

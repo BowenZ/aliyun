@@ -6815,6 +6815,8 @@ header {
 ol.questions {
   font-size: 1.6rem;
   list-style: decimal-leading-zero; }
+  ol.questions > li {
+    margin-bottom: 1rem; }
   ol.questions ol.options {
     padding-left: 3rem;
     list-style-type: upper-alpha; }
