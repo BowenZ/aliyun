@@ -2,10 +2,13 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
 
+var settings = require('./settings');
+
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 // var multer = require('multer');
 
 var routes = require('./routes/index');
@@ -17,11 +20,6 @@ var app = express();
 // app.use(multer({dest: './public/upload'}));
 
 // view engine setup
-/*console.log('==================');
-console.log(path);
-console.log(__dirname);
-console.log(path.join(__dirname, 'views'));
-console.log('====================');*/
 app.set('views', [path.join(__dirname, 'views')]);
 app.set('view engine', 'ejs');
 
@@ -30,13 +28,19 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use(session({
-  secret: 'bowen',
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  secret: settings.cookieSecret,
+  key: settings.db,
+  cookie: {maxAge: 1000 * 60 * 60 * 2},//2 hours
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore({
+    db: settings.db,
+    host: settings.host,
+    port: settings.port
+  })
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));

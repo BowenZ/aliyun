@@ -1,5 +1,5 @@
 module.exports = {
-	cookieSecret: 'myblog',
+	cookieSecret: 'bowen',
 	db: 'heapot',
 	host: '121.41.27.97',
 	port: 27017,
