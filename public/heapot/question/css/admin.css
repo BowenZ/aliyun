@@ -175,7 +175,8 @@ table .col-xs-12 {
   float: left;
   line-height: 34px; }
 .panel-heading button {
-  float: right; }
+  float: right;
+  margin-right: 0.8rem; }
 
 .search-form form {
   max-width: 500px;

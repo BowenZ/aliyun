@@ -56,8 +56,6 @@ router.get('/user/changepwd', function(req, res, next) {
         console.log('未登录');
         return res.send(3);
     }
-    // console.log(req.session.user,'============');
-    console.log(req.query.jsonpcallback,'123123123');
     User.changePassword(req.session.user._id, req.query.oldPwd, req.query.newPwd, function(err) {
         if (err) {
             if (err.message == '0') {
@@ -111,13 +109,16 @@ router.get('/question/admin', function(req, res, next) {
 });
 
 router.post('/question/admin/addquestion', function(req, res, next) {
+    if (!req.session.user) {
+        console.log('未登录');
+        return res.send('error');
+    }
     var newQuestion = new Question({
         type: req.body.type,
         title: req.body.title,
         options: JSON.parse(req.body.options),
         explain: req.body.explain
     });
-    console.log(req.body.options);
     newQuestion.save(function(err) {
         if (err)
             res.send('error');
@@ -128,7 +129,23 @@ router.post('/question/admin/addquestion', function(req, res, next) {
 });
 
 router.post('/question/delete', function(req, res, next) {
+    if (!req.session.user) {
+        console.log('未登录');
+        return res.json(0);
+    }
     Question.deleteOne(req.body.id, function(err) {
+        if (err)
+            return res.json(0);
+        return res.json(1);
+    });
+});
+
+router.post('/question/deleteall', function(req, res, next) {
+    if (!req.session.user) {
+        console.log('未登录');
+        return res.json(0);
+    }
+    Question.deleteAll(function(err) {
         if (err)
             return res.json(0);
         return res.json(1);
@@ -173,13 +190,13 @@ router.post('/question/admin/upload', upload.single('excelfile'), function(req, 
                 return;
             });
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             return;
         }
     });
     src.on('error', function(err) {
-        console.log('======');
-        console.log(err);
+        // console.log('======');
+        // console.log(err);
         res.json(err);
     });
     return;

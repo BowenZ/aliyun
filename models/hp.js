@@ -202,17 +202,38 @@ Question.deleteOne = function(id, callback){
                 return callback(err);
             }
 
-            collection.findOne({
+            /*collection.findOne({
                 _id: new ObjectID(id)
             }, function(err, doc){
                 console.log(doc,'+++++++++++');
-            });
+            });*/
             collection.remove({
                 _id: new ObjectID(id)
             }, {
                 w: 1
             }, function(err){
-                console.log(new ObjectID(id),'=========');
+                db.close();
+                if(err)
+                    return callback(err);
+                callback(null);
+            });
+        })
+    })
+}
+
+Question.deleteAll = function(callback){
+    mongodb.connect(settings.url, function(err, db) {
+        if (err) {
+            return callback(err);
+        }
+
+        //read users collection
+        db.collection('question', function(err, collection) {
+            if (err) {
+                db.close();
+                return callback(err);
+            }
+            collection.remove({}, {w: 1}, function(err){
                 db.close();
                 if(err)
                     return callback(err);
@@ -281,13 +302,10 @@ Question.saveAll = function(arr, callback) {
                         safe: true
                     }, function(err, question) {
                         i++;
-                        console.log(i, index);
                         if (err) {
-                            console.log('====', err);
                             callbackResult = err;
                         }
                         if (i == arr.length) {
-                            console.log('+++++++++++++closed+++++++++');
                             db.close();
                             callback(callbackResult);
                         }

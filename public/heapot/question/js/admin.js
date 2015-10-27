@@ -12,9 +12,9 @@ var resetPreview, loadContent;
                 method: 'GET',
                 url: '/heapot/question/getall/',
             }).success(function(data) {
-                console.log(data);
+                // console.log(data);
                 if (data.length == 0)
-                    alert('题库为空，请添加问题');
+                    self.questions = data;
                 else if (data == 0)
                     alert('查询问题出现错误，请刷新页面重试');
                 else if (data == 1)
@@ -50,8 +50,26 @@ var resetPreview, loadContent;
                         id: id
                     }
                 }).success(function(data) {
-                    console.log(data);
+                    if(data == 0){
+                        alert('登录超时，请刷新页面重新登录');
+                        return;
+                    }
                     self.questions.splice(index, 1);
+                });
+            }
+        }
+
+        self.clearAll = function(){
+            if(window.confirm('该操作将会删除所有题目，您确定要这样做吗？')){
+                $http({
+                    method: 'POST',
+                    url: '/heapot/question/deleteall'
+                }).success(function(data) {
+                    if(data == 0){
+                        alert('登录超时，请刷新页面重新登录');
+                        return;
+                    }
+                    loadContent();
                 });
             }
         }
@@ -349,6 +367,9 @@ $(document).ready(function() {
                 if (xhr.responseText == 1) {
                     //success
                     alert('上传成功');
+                    $('#excelModal').modal('hide');
+                    loadContent();
+                    $("#progressBar").attr("style", "width: 0%").attr("aria-valuenow", "0");
                 } else if (xhr.responseText == 0) {
                     //empty
                     alert('文件不能为空');

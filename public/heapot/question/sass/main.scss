@@ -33,7 +33,7 @@ ol {
     }
 }
 
-.question li>div{
+.question li>div {
     display: inline-flex;
 }
 
@@ -47,7 +47,7 @@ li.wrong {
     li.true {
         color: #e74c3c;
     }
-    .explain{
+    .explain {
         display: block;
     }
 }
@@ -59,4 +59,56 @@ li.wrong {
     &.wrong h4 {
         color: #e74c3c;
     }
+}
+
+.layer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    .result {
+        position: absolute;
+        width: 80%;
+        height: 50%;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: #e74c3c;
+        border-radius: 8px;
+        padding: 5%;
+        color: #fff;
+        text-align: center;
+        p:nth-child(1) {
+            margin-top: 15%;
+            font-size: 2.5rem;
+            strong {
+                color: #f1c40f;
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+                font-size: 1.5em;
+            }
+        }
+        p:nth-child(2) {
+            font-size: 1.5rem;
+        }
+        >.row {
+            position: absolute;
+            bottom: 2rem;
+            width: 100%;
+            left: 0;
+            margin: 0;
+        }
+    }
+}
+
+.side-btn {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: none;
 }

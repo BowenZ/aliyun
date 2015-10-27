@@ -83,13 +83,13 @@
                         </li> -->
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">消息</a></li>
+                        <!-- <li><a href="#">消息</a></li> -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">账号<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" data-toggle="modal" data-target="#pwdModal">更改密码</a></li>
-                                <li><a href="#">帮助</a></li>
-                                <li><a href="#">意见反馈</a></li>
+                                <!-- <li><a href="#">帮助</a></li>
+                                <li><a href="#">意见反馈</a></li> -->
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#" class="logout">注销</a></li>
                             </ul>
@@ -238,6 +238,7 @@
                 <div class="panel panel-info" ng-controller="FilterController as filterController">
                     <div class="panel-heading clearfix">
                         <h3 class="panel-title">题目信息</h3>
+                        <button class="btn btn-danger" ng-click="filterController.clearAll()">清空</button>
                         <button class="btn btn-primary" data-toggle="collapse" href="#searchForm" aria-expanded="false" aria-controls="searchForm">筛选</button>
                     </div>
                     <div class="collapse search-form" id="searchForm">

@@ -21,7 +21,7 @@
         <![endif]-->
     <!-- Add your site or application content here -->
     <div class="wrapper">
-        <section>
+        <section class="main">
             <header>
                 <h1>答题</h1>
             </header>
@@ -45,75 +45,26 @@
                             <p class="explain"><strong>解释：</strong><%= question.explain %></p>
                         </li>
                         <% }) %>
-                        <!-- <li class="question">
-                            <h4 class="">曹植七步成诗，相传历史上还有一位三步就能成诗的人，他是：</h4>
-                            <ol>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios1"  value="option1" >王安石
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios1"  value="option2">寇准
-                                        </label>
-                                    </div>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="question">
-                            <h4 class="">《论语》中认为“为仁之本”的是：</h4>
-                            <ol>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios2"  value="option1" >忠义
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios2"  value="option2">孝悌
-                                        </label>
-                                    </div>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="question">
-                            <h4 class="">“七月流火，九月授衣”，其中“七月流火”指的是：</h4>
-                            <ol>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios3"  value="option1" >天气炎热似火
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios3"  value="option2">天气渐渐转凉
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios3"  value="option2">流星异常出现
-                                        </label>
-                                    </div>
-                                </li>
-                            </ol>
-                        </li> -->
                     </ol>
                     <button type="button" class="btn btn-success btn-block submit">提交</button>
                 </form>
             </div>
         </section>
+        <div class="layer">
+            <div class="result">
+                <p>您一共答对了<strong>6</strong>道题</p>
+                <p>很遗憾没有中奖，下次再接再厉</p>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button class="btn btn-success btn-block">再来一次</button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-warning btn-block">查看问题解释</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-danger btn-lg side-btn">去领奖</button>
     </div>
     <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
     <!--<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
@@ -130,40 +81,71 @@
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>-->
     <script>
-$('.submit').click(function(event) {
-	if(window.confirm('确定要提交吗？')){
-		var $form = $('form');
-		var answers = [], wrongNum = 0, wrongFlag = false;
-		$('form .question').each(function(index, item) {
-			/*var $input = $(el).find('input:checked');
-			if($input.attr('type') == 'checkbox'){
-				var answer = [];
-				if($input.length < 2){
-					answer.push($input.val());
-				}else{
-					$input.each(function(index, el) {
-						answer.push(el.value)
-					});
-				}
-				answers.push(answer);
-			}else{
-				answers.push($input.val());
-			}*/
-            $(item).find('input').each(function(i, el) {
-                if($(el).is(':checked') != $(el).data('checked')){
-                    $(item).addClass('wrong');
-                    wrongFlag = true;
+$(document).ready(function() {
+    setTimeout(function() {window.scrollTo(0,0);}, 200);
+    var REDIRECT_URL = 'https://www.baidu.com/',
+        submited = false;
+    var $form = $('form'),
+        $layer = $('.layer'),
+        $sideBtn = $('.side-btn');
+    $('.submit').click(function(event) {
+        if(submited){
+            alert('不能重复提交');
+            return;
+        }
+        if(window.confirm('确定要提交吗？')){
+            submited = true;
+            $('.submit').attr('disabled', 'disabled');
+            $('input').attr('disabled', 'disabled');
+            var answers = [], wrongNum = 0, wrongFlag = false;
+            $('form .question').each(function(index, item) {
+                $(item).find('input').each(function(i, el) {
+                    if($(el).is(':checked') != $(el).data('checked')){
+                        $(item).addClass('wrong');
+                        wrongFlag = true;
+                    }
+                });
+                if(wrongFlag){
+                    wrongNum++;
+                    wrongFlag = false;
                 }
             });
-            if(wrongFlag){
-                wrongNum++;
-                wrongFlag = false;
+            $('form').addClass('done');
+            
+            console.log('一共错了'+wrongNum+'道题');
+            $layer.find('p:eq(0) strong').text(10 - wrongNum);
+            if(wrongNum > 1){
+                $layer.find('p:eq(1)').text('很遗憾没有中奖，下次再接再厉');
+                $layer.find('button:eq(0)').text('再来一次').data('prize', '0');
+            }else{
+                $layer.find('p:eq(1)').text('恭喜您中奖啦，点击下方按钮去领奖吧')
+                $layer.find('button:eq(0)').text('马上领奖').data('prize', '1');
             }
-		});
-        $('form').addClass('done');
-        window.scrollTo(0,0)
-        console.log('一共错了'+wrongNum+'道题');
-	}
+            $layer.fadeIn(200);
+        }
+    });
+
+    $layer.find('button:eq(0)').click(function() {
+        if($(this).data('prize') == 0){
+            location.reload();
+        }else{
+            window.location.href = REDIRECT_URL;
+        }
+    });
+
+    $layer.find('button:eq(1)').click(function() {
+        $sideBtn.text($layer.find('button:eq(0)').data('prize') == 0? '再来一次':'去领奖').fadeIn(200);;
+        $layer.fadeOut(200);
+        window.scrollTo(0,0);
+    });
+
+    $sideBtn.click(function() {
+        if($layer.find('button:eq(0)').data('prize') == 0){
+            location.reload();
+        }else{
+            window.location.href = REDIRECT_URL;
+        }
+    });
 });
     </script>
 </body>

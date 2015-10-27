@@ -42,6 +42,7 @@ table {
     }
     button {
         float: right;
+        margin-right: 0.8rem;
     }
 }
 
@@ -60,7 +61,7 @@ table {
     background-color: #eee;
     background-image: url(../img/bg.png);
     z-index: 99999;
-    &.true{
+    &.true {
         display: none;
     }
     form {
@@ -91,9 +92,9 @@ ol {
     list-style-type: upper-alpha;
 }
 
-.panel-body ol{
+.panel-body ol {
     padding-left: 6rem;
-    li.active{
+    li.active {
         color: #1abc9c;
     }
 }
