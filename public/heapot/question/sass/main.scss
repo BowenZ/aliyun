@@ -28,10 +28,11 @@ header {
     }
 }
 
-ol {
-    font-size: 18px;
+ol.questions {
+    font-size: 1.6rem;
     list-style: decimal-leading-zero;
-    ol {
+    ol.options {
+        padding-left: 3rem;
         list-style-type: upper-alpha;
     }
 }

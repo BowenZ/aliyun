@@ -27,11 +27,11 @@
             </header>
             <div class="container">
                 <form action="">
-                    <ol>
+                    <ol class="questions">
                         <% questions.forEach(function(question, index){ %>
                         <li class="question">
                             <h4><%= question.title %></h4>
-                            <ol>
+                            <ol class="options">
                                 <% question.options.forEach(function(opt, idx){ %>
                                 <li class="<%= opt.checked %>">
                                     <div class="<%= question.type %>">
