@@ -26,7 +26,6 @@ router.get('/user/login', function(req, res, next) {
                 res.send(req.query.jsonpcallback + '(' + 2 + ')');
             } else {
                 req.session.user = user;
-                // console.log(user, req.session.user, '---------------');
                 res.send(req.query.jsonpcallback + '(' + 1 + ')');
             }
             return;
@@ -41,7 +40,7 @@ router.get('/user/logout', function(req, res, next){
     if(req.session.user){
         req.session.user = null;
     }
-    res.send(1);
+    res.json(1);
 });
 
 router.get('/user/getsession', function(req, res, next){
@@ -53,7 +52,6 @@ router.get('/user/getsession', function(req, res, next){
 
 router.get('/user/changepwd', function(req, res, next) {
     if (!req.session.user) {
-        console.log('未登录');
         return res.send(3);
     }
     User.changePassword(req.session.user._id, req.query.oldPwd, req.query.newPwd, function(err) {
@@ -61,7 +59,6 @@ router.get('/user/changepwd', function(req, res, next) {
             if (err.message == '0') {
                 res.send(req.query.jsonpcallback + '(' + 0 + ')');
             } else {
-                console.log(err, '==========');
                 res.send(req.query.jsonpcallback + '(' + 2 + ')');
             }
         } else {
@@ -72,7 +69,6 @@ router.get('/user/changepwd', function(req, res, next) {
 
 router.get('/question/getall', function(req, res, next) {
     if (!req.session.user) {
-        console.log('未登录');
         return res.json(1);
     }
     Question.getAll(function(err, questions) {
@@ -110,7 +106,6 @@ router.get('/question/admin', function(req, res, next) {
 
 router.post('/question/admin/addquestion', function(req, res, next) {
     if (!req.session.user) {
-        console.log('未登录');
         return res.send('error');
     }
     var newQuestion = new Question({
@@ -130,7 +125,6 @@ router.post('/question/admin/addquestion', function(req, res, next) {
 
 router.post('/question/delete', function(req, res, next) {
     if (!req.session.user) {
-        console.log('未登录');
         return res.json(0);
     }
     Question.deleteOne(req.body.id, function(err) {
@@ -142,7 +136,6 @@ router.post('/question/delete', function(req, res, next) {
 
 router.post('/question/deleteall', function(req, res, next) {
     if (!req.session.user) {
-        console.log('未登录');
         return res.json(0);
     }
     Question.deleteAll(function(err) {
@@ -163,7 +156,6 @@ function readExcel(file) {
 router.post('/question/admin/upload', upload.single('excelfile'), function(req, res, next) {
     /** When using the "single"
       data come in "req.file" regardless of the attribute "name". **/
-    // console.log(req.file);
     if (req.file == undefined) {
         res.json(0);
         return;
@@ -190,13 +182,10 @@ router.post('/question/admin/upload', upload.single('excelfile'), function(req, 
                 return;
             });
         } catch (e) {
-            // console.log(e);
             return;
         }
     });
     src.on('error', function(err) {
-        // console.log('======');
-        // console.log(err);
         res.json(err);
     });
     return;

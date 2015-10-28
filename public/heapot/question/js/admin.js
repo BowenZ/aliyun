@@ -256,6 +256,7 @@ $(document).ready(function() {
                     alert('登录超时，请刷新页面重新登录');
                 } else {
                     alert('修改成功');
+                    $('#pwdModal').modal('hide');
                 }
                 $(form).find('input').val('');
                 validator.resetForm();
