@@ -6812,32 +6812,88 @@ header {
     line-height: 3.4rem;
     font-weight: normal; }
 
-ol.questions {
+form {
   font-size: 1.6rem;
-  list-style: decimal-leading-zero; }
-  ol.questions > li {
-    margin-bottom: 1rem; }
-  ol.questions ol.options {
-    padding-left: 3rem;
-    list-style-type: upper-alpha; }
-
-.question li > div {
-  display: inline-flex; }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 8rem 0; }
+  form .questions {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto; }
+    form .questions .question {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding: 0 40px;
+      background-color: #fff;
+      -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+      transform: translateX(100%);
+      -webkit-transition: -webkit-transform .3s ease-out;
+      transition: transform .3s ease-out; }
+      form .questions .question.active {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0); }
+      form .questions .question.done h4 {
+        color: #1abc9c; }
+      form .questions .question.done.wrong h4 {
+        color: #e74c3c; }
+      form .questions .question.done p {
+        display: block; }
+      form .questions .question.wrong li.true {
+        color: #e74c3c; }
+      form .questions .question ol.options {
+        padding-left: 3rem;
+        list-style-type: upper-alpha; }
+        form .questions .question ol.options li > div {
+          display: inline-flex; }
+  form .submit {
+    position: relative;
+    margin: 1.5rem auto;
+    text-align: center;
+    line-height: 4rem;
+    display: block;
+    width: 80%;
+    cursor: pointer;
+    font-size: 25px;
+    color: #F0F0F0;
+    border-radius: 10px;
+    border-bottom: 4px solid #0045A6;
+    box-shadow: 6px 6px 6px #999;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+    background: -webkit-linear-gradient(#00C8F8, #0067F7);
+    background: -o-linear-gradient(#00C8F8, #0067F7);
+    background: -moz-linear-gradient(#00C8F8, #0067F7);
+    background: linear-gradient(#00C8F8, #0067F7);
+    -webkit-transition: background 0.05s linear;
+    -moz-transition: background 0.05s linear;
+    -o-transition: background 0.05s linear;
+    transition: background 0.05s linear;
+    background-size: 1px 200px;
+    transition: all .05s linear; }
+    form .submit.active {
+      box-shadow: 2px 2px 2px #777;
+      border-bottom: 1px solid #0045A6;
+      -webkit-transform: translateY(3px);
+      transform: translateY(3px); }
 
 .explain {
   font-size: 1.4rem;
   color: #3498db;
   display: none; }
-
-li.wrong li.true {
-  color: #e74c3c; }
-li.wrong .explain {
-  display: block; }
-
-.done .question h4 {
-  color: #1abc9c; }
-.done .question.wrong h4 {
-  color: #e74c3c; }
 
 .layer {
   position: fixed;
@@ -6863,14 +6919,14 @@ li.wrong .explain {
     text-align: center; }
     .layer .result p:nth-child(1) {
       margin-top: 15%;
-      font-size: 2.5rem; }
+      font-size: 3rem; }
       .layer .result p:nth-child(1) strong {
         color: #f1c40f;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
         font-size: 1.5em; }
     .layer .result p:nth-child(2) {
-      font-size: 1.5rem; }
+      font-size: 2rem; }
     .layer .result > .row {
       position: absolute;
       bottom: 2rem;

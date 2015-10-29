@@ -83,8 +83,10 @@ router.get('/question/getall', function(req, res, next) {
 
 router.get('/question/user', function(req, res, next) {
     Question.getAll(function(err, docs) {
-        if (err)
-            return res.json(0);
+        if (err){
+            console.log(err);
+            return res.send('请求超时，请稍后重试');
+        }
         var arr = [];
         for (var i = 0; i < 10; i++) {
             arr.push(docs.splice(parseInt(Math.random() * docs.length), 1)[0]);
