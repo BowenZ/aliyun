@@ -120,7 +120,7 @@ if (!!getCookie('HeaPotData')) {
     var logInfo = JSON.parse(getCookie('HeaPotData'));
     logInfo.password = (new Base64()).decode(logInfo.password);
     // console.log(logInfo);
-    $.getJSON('/heapot/user/login?jsonpcallback=?', {
+    $.getJSON('/heapot/user/login?callback=?', {
         name: logInfo.username,
         password: logInfo.password,
         company: 'question'
@@ -172,7 +172,7 @@ $(document).ready(function() {
         submitHandler: function(validator, form, submitButton) {
             var username = $(form).find('input[name="username"]').val(),
                 password = $(form).find('input[name="password"]').val();
-            $.getJSON('/heapot/user/login?jsonpcallback=?', {
+            $.getJSON('/heapot/user/login?callback=?', {
                 name: username,
                 password: password,
                 company: 'question'
@@ -242,7 +242,7 @@ $(document).ready(function() {
         },
         submitHandler: function(validator, form, submitButton) {
             $loadingIcon.css('visibility', 'visible');
-            $.getJSON('/heapot/user/changepwd?jsonpcallback=?', {
+            $.getJSON('/heapot/user/changepwd?callback=?', {
                 oldPwd: oldPwd.value,
                 newPwd: newPwd1.value
             }, function(data) {

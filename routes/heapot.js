@@ -23,14 +23,15 @@ router.get('/user/login', function(req, res, next) {
             var md5 = crypto.createHash('md5'),
                 password = md5.update(req.query.password).digest('hex');
             if (user.password != password) {
-                res.send(req.query.jsonpcallback + '(' + 2 + ')');
+                // res.send(req.query.callback + '(' + 2 + ')');
+                res.jsonp(2);
             } else {
                 req.session.user = user;
-                res.send(req.query.jsonpcallback + '(' + 1 + ')');
+                res.jsonp(1);
             }
             return;
         } else {
-            res.send(req.query.jsonpcallback + '(' + 0 + ')');
+            res.jsonp(0);
             return;
         }
     });
@@ -57,12 +58,12 @@ router.get('/user/changepwd', function(req, res, next) {
     User.changePassword(req.session.user._id, req.query.oldPwd, req.query.newPwd, function(err) {
         if (err) {
             if (err.message == '0') {
-                res.send(req.query.jsonpcallback + '(' + 0 + ')');
+                res.jsonp(0);
             } else {
-                res.send(req.query.jsonpcallback + '(' + 2 + ')');
+                res.jsonp(2);
             }
         } else {
-            res.send(req.query.jsonpcallback + '(' + 1 + ')');
+            res.jsonp(1);
         }
     });
 });
@@ -189,6 +190,11 @@ router.post('/question/admin/upload', upload.single('excelfile'), function(req, 
         res.json(err);
     });
     return;
+});
+
+router.get('/question/admin/download', function(req, res, next){
+    res.type('application/zip');
+    res.download('public/download/download.zip');
 });
 
 module.exports = router;

@@ -1,14 +1,20 @@
 var settings = require('../settings');
 var crypto = require('crypto'),
     ObjectID = require('mongodb').ObjectID;
-var mongodb = require('mongodb').MongoClient;
+// var mongodb = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 mongoose.connect(settings.url);
 
-//--------焕君start---------
+//--------user start---------
 var userSchema = new mongoose.Schema({
-    name: String,
-    password: String,
+    name: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     email: String,
     tel: String,
     company: String
@@ -39,10 +45,7 @@ User.prototype.save = function(callback) {
     var newUser = new userModel(user);
 
     newUser.save(function(err, user) {
-        if (err) {
-            return callback(err);
-        }
-        callback(null, user);
+        return callback(err, user);
     });
 };
 
@@ -64,10 +67,7 @@ User.get = function(name, email, company, callback) {
         email: email,
         company: company
     }, function(err, user) {
-        if (err) {
-            return callback(err);
-        }
-        callback(null, user);
+        return callback(err, user);
     });
 }
 
@@ -91,24 +91,31 @@ User.changePassword = function(id, oldPwd, newPwd, callback) {
                 password: crypto.createHash('md5').update(newPwd).digest('hex')
             }
         }, function(err) {
-            if (err) {
-                return callback(err);
-            }
-            callback(null);
+            callback(err);
         });
     });
 }
 
-//--------焕君end---------
+//--------user end---------
 
 //--------答题start---------
 var questionSchema = new mongoose.Schema({
-    type: String,
-    title: String,
-    options: [{
-        option: String,
-        checked: Boolean
-    }],
+    type: {
+        type: String,
+        enum: ['radio', 'checkbox'],
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    options: {
+        type: [{
+            option: String,
+            checked: Boolean
+        }],
+        required: true
+    },
     explain: String,
     time: {
         date: Date,
@@ -149,19 +156,13 @@ Question.prototype.save = function(callback) {
 
     var newQuestion = new questionModel(question);
     newQuestion.save(function(err, question) {
-        if (err) {
-            return callback(err);
-        }
-        callback(null, question);
+        callback(err, question);
     });
 };
 
 Question.getAll = function(callback) {
     questionModel.find({}).sort('-time').exec(function(err, docs) {
-        if (err) {
-            return callback(err);
-        }
-        callback(null, docs);
+        callback(err, docs);
     });
 }
 
@@ -169,17 +170,13 @@ Question.deleteOne = function(id, callback) {
     questionModel.remove({
         _id: new ObjectID(id)
     }, function(err) {
-        if (err)
-            return callback(err);
-        callback(null);
+        callback(err);
     });
 }
 
 Question.deleteAll = function(callback) {
     questionModel.remove({}, function(err) {
-        if (err)
-            return callback(err);
-        callback(null);
+        callback(err);
     });
 }
 
@@ -229,10 +226,7 @@ Question.saveAll = function(arr, callback) {
         });
     });
     questionModel.create(questions, function(err, docs) {
-        if (err) {
-            return callback(err);
-        }
-        callback(null);
+        callback(err);
     });
 }
 
