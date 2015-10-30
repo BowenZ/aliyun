@@ -195,3 +195,14 @@ form {
         font-size: 23px;
     }
 }
+
+@media screen and (min-width: 414px) {
+    .question {
+        h4 {
+            font-size: 2.2rem;
+        }
+        label {
+            font-size: 1.8rem;
+        }
+    }
+}
