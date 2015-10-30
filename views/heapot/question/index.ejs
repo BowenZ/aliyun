@@ -13,6 +13,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width,initial-scale = 1.0,maximum-scale = 1.0, user-scalable=no">
     <link rel="stylesheet" href="css/main.css">
+    <script type="text/javascript">
+if(window.navigator.userAgent.toLowerCase().match(/android/i) !== null){
+    if(localStorage.getItem('questionRight') == 1){
+        localStorage.setItem('questionRight','0');
+        location.reload();
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -71,7 +79,6 @@
     <script>
     window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
     </script>
-    <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <!--<script>
@@ -138,8 +145,8 @@ $(document).ready(function() {
             wrongFlag = false;
             $submit.text('提交').removeClass('success').addClass('normal');
         }else{
-            // window.location.href = REDIRECT_URL;
-            window.open('https://www.baidu.com/');
+            localStorage.setItem('questionRight','1');
+            window.location.href = REDIRECT_URL;
         }
     });
 
@@ -159,9 +166,9 @@ $(document).ready(function() {
                 wrongFlag = false;
             });
         }else{
+            localStorage.setItem('questionRight','1');
             $form.find('.continue').css('display', 'block');
-            // window.location.href = REDIRECT_URL;
-            window.open('https://www.baidu.com/');
+            window.location.href = REDIRECT_URL;
         }
     });
 
