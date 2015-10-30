@@ -46,7 +46,7 @@
                         </div>
                         <% }) %>
                     </div>
-                    <span class="submit" data-status="0">提交</span>
+                    <span class="submit normal" data-status="0">提交</span>
                 </form>
             </div>
         </section>
@@ -136,7 +136,7 @@ $(document).ready(function() {
             status = 0;
             $question.filter(':not(".active")').eq(0).addClass('active');
             wrongFlag = false;
-            $submit.text('提交').removeClass('danger').addClass('success');
+            $submit.text('提交').removeClass('success').addClass('normal');
         }else{
             window.location.href = REDIRECT_URL;
         }
@@ -163,7 +163,12 @@ $(document).ready(function() {
     });
 
     $layer.find('button:eq(1)').click(function() {
-        $submit.text(submitText).removeClass('success').addClass('danger');
+        console.log(status);
+        if(status == 3){
+            $submit.text(submitText).removeClass('normal').addClass('danger');
+        }else{
+            $submit.text(submitText).removeClass('normal').addClass('success');
+        }
         $layer.fadeOut(200);
         window.scrollTo(0,0);
     });

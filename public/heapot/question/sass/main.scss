@@ -22,8 +22,8 @@ header {
         font-size: 2rem;
         color: #fff;
         text-align: center;
-        background-color: #3386C5;
-        line-height: 3.4rem;
+        background-color: #3498db;
+        line-height: 4rem;
         font-weight: normal;
     }
 }
@@ -96,26 +96,34 @@ form {
         font-size: 25px;
         color: #F0F0F0;
         border-radius: 10px;
-        border-bottom: 4px solid #0045A6;
         box-shadow: 6px 6px 6px #999;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         -o-user-select: none;
         -webkit-user-select: none;
-        background: -webkit-linear-gradient(#00C8F8, #0067F7);
-        background: -o-linear-gradient(#00C8F8, #0067F7);
-        background: -moz-linear-gradient(#00C8F8, #0067F7);
-        background: linear-gradient(#00C8F8, #0067F7);
-        -webkit-transition: background 0.05s linear;
-        -moz-transition: background 0.05s linear;
-        -o-transition: background 0.05s linear;
         transition: background 0.05s linear;
         background-size: 1px 200px;
+        -webkit-transition: all .05s linear;
         transition: all .05s linear;
+        &.normal {
+            background: -webkit-linear-gradient(#00C8F8, #0067F7);
+            background: linear-gradient(#00C8F8, #1B76F5);
+            border-bottom: 4px solid #0852B9;
+        }
+        &.success {
+            background: -webkit-linear-gradient(#1DCCA9, #179A80);
+            background: linear-gradient(#1DCCA9, #179A80);
+            border-bottom: 4px solid #15826C;
+        }
+        &.danger {
+            background: -webkit-linear-gradient(#F76657, #BD3626);
+            background: linear-gradient(#F76657, #BD3626);
+            border-bottom: 4px solid #8A2A21;
+        }
         &.active {
             box-shadow: 2px 2px 2px #777;
-            border-bottom: 1px solid #0045A6;
+            border-bottom-width: 1px;
             -webkit-transform: translateY(3px);
             transform: translateY(3px);
         }
@@ -178,4 +186,12 @@ form {
     right: 1rem;
     bottom: 1rem;
     display: none;
+}
+
+@media screen and (max-width: 320px) {
+    form .submit {
+        margin: 2.5rem auto 0;
+        line-height: 3.5rem;
+        font-size: 23px;
+    }
 }
