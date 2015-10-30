@@ -35,7 +35,7 @@ form {
     height: 100%;
     top: 0;
     left: 0;
-    padding: 8rem 0;
+    padding: 8rem 0 10rem;
     .questions {
         position: relative;
         width: 100%;
@@ -87,7 +87,7 @@ form {
     }
     .submit {
         position: relative;
-        margin: 1.5rem auto;
+        margin: 1.5rem auto 0.5rem;
         text-align: center;
         line-height: 4rem;
         display: block;
@@ -127,6 +127,12 @@ form {
             -webkit-transform: translateY(3px);
             transform: translateY(3px);
         }
+    }
+    .continue {
+        text-align: center;
+        display: block;
+        padding: 0.5rem;
+        display: none;
     }
 }
 

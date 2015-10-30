@@ -47,6 +47,7 @@
                         <% }) %>
                     </div>
                     <span class="submit normal" data-status="0">提交</span>
+                    <a href="#" class="continue">继续答题</a>
                 </form>
             </div>
         </section>
@@ -91,7 +92,6 @@ $(document).ready(function() {
     var $form = $('form'),
         $question = $form.find('.question'),
         $layer = $('.layer'),
-        $sideBtn = $('.side-btn'),
         $submit = $('.submit'),
         submitText,
         status = 0;
@@ -138,7 +138,8 @@ $(document).ready(function() {
             wrongFlag = false;
             $submit.text('提交').removeClass('success').addClass('normal');
         }else{
-            window.location.href = REDIRECT_URL;
+            // window.location.href = REDIRECT_URL;
+            window.open('https://www.baidu.com/');
         }
     });
 
@@ -158,27 +159,30 @@ $(document).ready(function() {
                 wrongFlag = false;
             });
         }else{
-            window.location.href = REDIRECT_URL;
+            $form.find('.continue').css('display', 'block');
+            // window.location.href = REDIRECT_URL;
+            window.open('https://www.baidu.com/');
         }
+    });
+
+    $form.find('.continue').click(function() {
+        status = 0;
+        $question.filter(':not(".active")').eq(0).addClass('active');
+        wrongFlag = false;
+        $submit.text('提交').removeClass('danger').addClass('normal');
+        $(this).css('display', 'none');
     });
 
     $layer.find('button:eq(1)').click(function() {
         console.log(status);
         if(status == 3){
             $submit.text(submitText).removeClass('normal').addClass('danger');
+            $form.find('.continue').css('display', 'block');
         }else{
             $submit.text(submitText).removeClass('normal').addClass('success');
         }
         $layer.fadeOut(200);
         window.scrollTo(0,0);
-    });
-
-    $sideBtn.click(function() {
-        if($layer.find('button:eq(0)').data('prize') == 0){
-            location.reload();
-        }else{
-            window.location.href = REDIRECT_URL;
-        }
     });
 });
     </script>
