@@ -3,6 +3,7 @@ var crypto = require('crypto'),
     ObjectID = require('mongodb').ObjectID;
 // var mongodb = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
+console.log(settings.url,'+++++++++++++');
 mongoose.connect(settings.url);
 
 //--------user start---------

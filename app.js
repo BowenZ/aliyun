@@ -11,9 +11,9 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 // var multer = require('multer');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./routes/index');
 var heapot = require('./routes/heapot');
+var utils = require('./routes/utils');
 
 var app = express();
 
@@ -45,9 +45,9 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/', index);
 app.use('/heapot', heapot);
+app.use('/utils', utils);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
