@@ -37,9 +37,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: new MongoStore({
-    db: settings.db,
-    host: settings.host,
-    port: settings.port
+    url: settings.url
   })
 }));
 
